@@ -1,63 +1,12 @@
 from DRCF import *
 
+#snelheden voor normale omstandigheden
 velocity = 150
 acceleration = 100
+
 #home poses
 home_pos_j = posj(0, 22.5, 67.5, 0, 90, 0.0)
 home_pos_t = posx(523.4, -0.0, 406.1, 0.0, -180.0, 0.0)
-
-#achterklep demonteren
-achterklepstation_hoogj = posj(-18.4, 30.7, 90.2, -6.5, 59.4, -0.0)
-achterklepstation_hoogl = posx(492.7, -176.5, 192.0, 69.3, -174.4, 84.4)
-achterklepstation = posx(523.4, -0.0, 406.1, 0.0, -180.0, 0.0)
-achterklep_vorkS1 = posx(523.4, -0.0, 406.1, 0.0, -180.0, 0.0)
-achterklep_vorkS2 = posx(523.4, -0.0, 406.1, 0.0, -180.0, 0.0)
-achterklep_vorkS3 = posx(523.4, -0.0, 406.1, 0.0, -180.0, 0.0)
-achterklep_vorkS4 = posx(523.4, -0.0, 406.1, 0.0, -180.0, 0.0)
-
-#plek op de plaat voor achterklep
-plaat_achterklep = posx(523.4, -0.0, 406.1, 0.0, -180.0, 0.0)
-
-
-def achterklep_demonteren():
-    #Stap 1: Telefoon naar demonteercel brengen
-    movej(achterklepstation_hoogj,v=velocity, a=acceleration)
-    movel(achterklepstation,v=velocity, a=acceleration)
-    #vacuum uitschakelen
-    wait(2)
-
-    #Stap 2: tool changen
-    movel(achterklepstation_hoogl,v=velocity, a=acceleration)
-    #cilinder uitschuiven
-    movej(home_pos_j,v=velocity, a=acceleration)
-    #insert tool change code
-
-    #stap 3: vork gebruiken
-    movej(achterklepstation_hoogj,v=velocity, a=acceleration)
-    movel(achterklep_vorkS1,v=velocity, a=acceleration)
-    movel(achterklep_vorkS2,v=velocity, a=acceleration)
-    movel(achterklep_vorkS3,v=velocity, a=acceleration)
-    movel(achterklep_vorkS4,v=velocity, a=acceleration)
-
-    # Stap 4: tool changen
-    movel(achterklepstation_hoogl,v=velocity, a=acceleration)
-    movej(home_pos_j,v=velocity, a=acceleration)
-    #insert tool change code
-
-    #Stap 5: oppakken achterklep
-    # cilinder inschuiven
-    movej(achterklepstation_hoogj,v=velocity, a=acceleration)
-    #vacuum inschakelen
-    movel(achterklepstation,v=velocity, a=acceleration)
-    wait(2)
-    movel(achterklepstation_hoogl,v=velocity, a=acceleration)
-    movej(home_pos_j,v=velocity, a=acceleration)
-
-    #stap 6: achterklep op plaat plaatsen
-    movel(plaat_achterklep,v=velocity, a=acceleration)
-    #vacuum uitschakelen
-    movej(home_pos_j,v=velocity, a=acceleration)
-
 
 
 ##############################################
@@ -107,6 +56,66 @@ def achterklep():
     set_digital_output(1, 0)
     movel(omdraaistation_telefoon_boven, v=vx, a=ax)
     movej(home_pos_j,v=velocity, a=acceleration)
+    #tool changen
+
+
+vork_S1 = posx(488.1, -149.8, 88.3, 20.2, -179.3, -27.2)
+vork_S2 = posx(488.1, -177.2, 88.4, 20.9, -179.3, -26.6)
+vork_S3 = posx(488.1, -177.2, 102.1, 20.9, -179.3, -26.6)
+vork_S4 = posx(488.1, -177.2, 93.2, 20.9, -179.3, -26.6)
+vork_S5 = posx(488.1, -177.0, 101.5, 19.9, -179.3, -27.6)
+vork_S6 = posx(488.1, -190.3, 109.1, 19.9, -179.3, -27.6)
+vork_S7 = posx(488.1, -144.9, 96.4, 19.8, -179.3, -27.7)
+vork_S8 = posx(431.0, -246.0, 127.0, 112.7, -179.3, -27.8)
+vork_S9 = posx(458.5, -232.5, 95.2, 3.5, -169.0, -136.4)
+vork_S10 = posx(472.0, -222.7, 87.8, 2.9, -166.6, -137.0)
+vork_S11 = posx(473.1, -222.7, 92.3, 2.9, -166.6, -137.0)
+
+def achterklep2():
+    vx = 40
+    ax = 20
+    set_digital_output(2, 1)
+    movel(vork_S1, v=velocity, a=acceleration)
+    movel(vork_S2, v=vx, a=ax)
+    movel(vork_S3, v=vx, a=ax)
+    movel(vork_S4, v=vx, a=ax)
+    set_digital_output(2, 0)
+    movel(vork_S5, v=vx, a=ax)
+    movel(vork_S6, v=vx, a=ax)
+    movel(vork_S7, v=vx, a=ax)
+    movel(vork_S8, v=vx, a=ax)
+    movel(vork_S9, v=vx, a=ax)
+    movel(vork_S10, v=vx, a=ax)
+    set_digital_output(2, 1)
+    movel(vork_S11, v=vx, a=ax)
+    set_digital_output(2, 0)
+    movel(vork_S10, v=vx, a=ax)
+    movel(vork_S9, v=vx, a=ax)
+    movel(vork_S8, v=vx, a=ax)
+
+    movej(home_pos_j, v=velocity, a=acceleration)
+    #tool changen
+    #wait(10)
+
+achterklep_oppakken_S1 = posx(486.6, -262.1, 151.0, 177.1, 180.0, 177.1)
+achterklep_oppakken_S2 = posx(486.6, -262.1, 139.3, 174.8, 180.0, 174.8)
+achterklep_oppakken_S3 = posx(486.6, -262.1, 164.5, 176.3, 180.0, 176.3)
+achterklep_oppakken_S4 = posx(277.0, -191.8, 179.5, 179.6, 180.0, 88.5)
+achterklep_oppakken_S5 = posx(277.0, -191.8, 145.2, 179.6, 180.0, 88.5)
+
+def achterklep3():
+    vx = 40
+    ax = 20
+    movel(achterklep_oppakken_S1, v=velocity, a=acceleration)
+    set_digital_output(1, 1)
+    movel(achterklep_oppakken_S2, v=vx, a=ax)
+    movel(achterklep_oppakken_S3, v=vx, a=ax)
+    movel(achterklep_oppakken_S4, v=vx, a=ax)
+    movel(achterklep_oppakken_S5, v=vx, a=ax)
+    set_digital_output(1, 0)
+    movel(achterklep_oppakken_S4, v=vx, a=ax)
+    movej(home_pos_j, v=velocity, a=acceleration)
+
 
 
 
@@ -155,16 +164,25 @@ batterij_boven = posx(488.9, -262.9, 156.0, 151.8, 180.0, 137.0)
 batterij_pos = posx(490.6, -268.3, 134.1, 146.9, -179.9, 132.1)
 batterij_eruit = posx(488.9, -270.6, 144.8, 110.4, -179.1, 95.7)
 batterij_eruit2 = posx(488.5, -269.6, 204.1, 110.4, -179.1, 95.7)
+batterij_erin = posx(145.2, -204.0, 140.6, 89.5, -179.3, 74.9)
+batterij_erin2 = posx(145.2, -204.0, 187.6, 89.5, -179.3, 74.9)
+
 
 def batterij():
     vx = 50
     ax = 20
-    movel(batterij_boven,v=velocity, a=acceleration)
-    movel(batterij_pos,v=vx, a=ax)
-    set_digital_output(1,1)
+    movel(batterij_boven, v=velocity, a=acceleration)
+    movel(batterij_pos, v=vx, a=ax)
+    set_digital_output(1, 1)
     wait(1)
-    movel(batterij_eruit,v=vx, a=ax)
-    movel(batterij_eruit2,v=vx, a=ax)
+    movel(batterij_eruit, v=vx, a=ax)
+    movel(batterij_eruit2, v=vx, a=ax)
+    movel(batterij_erin2, v=vx, a=ax)
+    movel(batterij_erin, v=vx, a=ax)
+    set_digital_output(1, 0)
+    wait(1)
+    movel(batterij_erin2, v=vx, a=ax)
+
 
 ######################################################################################
 ##Voorrand demonteren station
@@ -201,7 +219,13 @@ def voorrand_demonteren():
 
 set_digital_output(1,0)
 movej(home_pos_j,v=velocity, a=acceleration)
+#achterklep()
+#wait(8)
+achterklep2()
+wait(8)
+achterklep3()
 #omdraaistation()
 #voorrand_demonteren()
-#achterklep()
-batterij()
+#batterij()
+
+set_digital_output(1,0)
