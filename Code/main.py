@@ -12,28 +12,51 @@ home_pos_t = posx(523.4, -0.0, 406.1, 0.0, -180.0, 0.0)
 ##############################################
 ##Tool change deel
 #############################################
-vacuum_bovenj_gedraaid = posj(5.8, 52.2, 38.5, 0.0, 89.3, 48.9)
-vacuum_bovenl_gedraaid = posx(686.6, 69.2, 274.7, 82.8, 180.0, 125.9)
-vacuum_bovenj_los = posj(5.7, 52.6, 31.4, -0.2, 96.2, 3.4)
-vacuum_bovenl_los = posx(686.3, 68.5, 314.9, 53.8, -179.7, 51.5)
-vacuum_cel_los = posx(687.6, 70.1, 171.0, 74.0, -179.5, 74.3)
-vacuum_cel_gedraaid = posx(686.6, 69.2, 168.5, 150.1, 180.0, -166.8)
 
-def get_vacuum():
-    vx = 5
-    ax = 10
+m = 5
+def grab_tool(tool):
+    if tool == 1:
+        pos_boven_j = posj(5.8, 52.5, 41.5, 0.0, 85.9, 7.5 - 180)
+        pos_t = posx(687.3, 69.8, 168.2, 5.8, 180.0, -172.5)
+        pos_rotated_j = posj(5.8, 55.2, 49.6, 0.0, 75.2, 7.5 + 45 - 180)
+        pos_boven_rotated_t = posx(687.3, 69.8, 251.9, 5.8, 180.0, -127.6)
+    elif tool == 2:
+        pos_boven_j = posj(-1.7, 51.9, 43.4, -0.0, 84.7, -180.0)
+        pos_t = posx(687.1, -20.4, 168.6, 177.9, -180.0, -0.3)
+        pos_rotated_j = posj(-1.7, 54.6, 50.7, 0.0, 74.7, -180.0 + 45)
+        pos_boven_rotated_t = posx(687.1, -20.4, 247.0, 178.5, 180.0, 44.0)
 
-    movej(vacuum_bovenj_los,v=velocity, a=acceleration)
-    movel(vacuum_cel_los, v=vx, a=ax)
-    movel(vacuum_cel_gedraaid, v=vx, a=ax)
-    movel(vacuum_bovenl_gedraaid, v=vx, a=ax)
-    movej(home_pos_j,v=velocity, a=acceleration)
-#movej(home_pos_j,v=velocity, a=acceleration)
-#get_vacuum()
+    movej(pos_boven_j, a=10, v=10 * m)
+    movel(pos_t, a=10, v=10 * m)
+    # Cilinder
+    movej(pos_rotated_j, a=10, v=10 * m)
+    movel(pos_boven_rotated_t, a=10, v=10 * m)
+    movej(home_pos_j, v=velocity, a=acceleration)
+
+
+def dump_tool(tool):
+    if tool == 1:
+        pos_boven_t = posx(687.3, 69.8, 251.9, 5.8, 179.9, -172.5)
+        pos_j = posj(5.8, 55.2, 49.6, 0.0, 75.2, -180)
+        pos_rotated_t = posx(687.3, 69.8, 168.2, 5.8, 180.0, -127.6)
+        pos_boven_rotated_j = posj(5.8, 52.5, 41.5, 0.0, 85.9, 7.5 + 45 - 180)
+    elif tool == 2:
+        pos_boven_t = posx(687.0, -20.4, 247.0, 1.2, -180.0, -178)
+        pos_j = posj(-1.7, 54.6, 50.7, 0.0, 74.7, -180.0)
+        pos_rotated_t = posx(687.1, -20.4, 168.5, 177.3, 180.0, 44.0)
+        pos_boven_rotated_j = posj(-1.7, 51.9, 43.4, -0.0, 84.7, -180.0 + 45)
+
+    movej(pos_boven_rotated_j, a = 10, v = 10 * m)
+    movel(pos_rotated_t, a = 10, v = 10 * m)
+    # Cilinder
+    movej(pos_j, a = 10, v = 10 * m)
+    movel(pos_boven_t, a=10,v=10*m)
+    movej(home_pos_j, v=velocity, a=acceleration)
+
+
 
 ######################################################################################
 ##achterklep demonteer station
-##status:
 ######################################################################################
 traytelefoon_bovenj = posj(-36.2, 9.5, 125.3, -0.0, 45.1, -33.0)
 traytelefoon_bovenl = posx(264.4, -193.7, 190.3, 144.1, 180.0, 147.3)
@@ -122,7 +145,6 @@ def achterklep3():
 
 ######################################################################################
 ##Omdraai station
-##status: Getest, werkend
 ######################################################################################
 achterklep_omdraai = posx(491.9, -258.8, 129.3, 152.3, 180.0, 136.1)
 achterklep_opzij = posx(490.9, -255.4, 130.6, 152.6, 180.0, 136.3)
@@ -158,7 +180,6 @@ def omdraaistation():
 
 ######################################################################################
 ##batterij weghalen
-##status:
 ######################################################################################
 
 batterij_boven = posx(488.9, -262.9, 156.0, 151.8, 180.0, 137.0)
@@ -187,7 +208,6 @@ def batterij():
 
 ######################################################################################
 ##Voorrand demonteren station
-##status: Getest, werkend
 ######################################################################################
 toolchanger_afstand = posj(-0.8, 28.3, 110.7, 76.5, 77.9, 0.0)
 toolchanger_telefoon = posx(431.3, 134.6, 192.5, 89.1, 106.2, 137.5)
@@ -214,50 +234,22 @@ def voorrand_demonteren():
     movel(voorrand_boven, v=velocity, a=acceleration)
     movej(home_pos_j, v=velocity, a=acceleration)
 
+######################################################################################
+##Voorrand verwijderen
+######################################################################################
+
+#staat nog op de planning
+
+######################################################################################
+##de rest van de telefoon naar tray verplaatsen
+######################################################################################
+
+#staat nog op de planning
 
 
-m = 5
-def grab_tool(tool):
-    if tool == 1:
-        pos_boven_j = posj(5.8, 52.5, 41.5, 0.0, 85.9, 7.5 - 180)
-        pos_t = posx(687.3, 69.8, 168.2, 5.8, 180.0, -172.5)
-        pos_rotated_j = posj(5.8, 55.2, 49.6, 0.0, 75.2, 7.5 + 45 - 180)
-        pos_boven_rotated_t = posx(687.3, 69.8, 251.9, 5.8, 180.0, -127.6)
-    elif tool == 2:
-        pos_boven_j = posj(-1.7, 51.9, 43.4, -0.0, 84.7, -180.0)
-        pos_t = posx(687.1, -20.4, 168.6, 177.9, -180.0, -0.3)
-        pos_rotated_j = posj(-1.7, 54.6, 50.7, 0.0, 74.7, -180.0 + 45)
-        pos_boven_rotated_t = posx(687.1, -20.4, 247.0, 178.5, 180.0, 44.0)
-
-    movej(pos_boven_j, a=10, v=10 * m)
-    movel(pos_t, a=10, v=10 * m)
-    # Cilinder
-    movej(pos_rotated_j, a=10, v=10 * m)
-    movel(pos_boven_rotated_t, a=10, v=10 * m)
-    movej(home_pos_j, v=velocity, a=acceleration)
-
-
-def dump_tool(tool):
-    if tool == 1:
-        pos_boven_t = posx(687.3, 69.8, 251.9, 5.8, 179.9, -172.5)
-        pos_j = posj(5.8, 55.2, 49.6, 0.0, 75.2, -180)
-        pos_rotated_t = posx(687.3, 69.8, 168.2, 5.8, 180.0, -127.6)
-        pos_boven_rotated_j = posj(5.8, 52.5, 41.5, 0.0, 85.9, 7.5 + 45 - 180)
-    elif tool == 2:
-        pos_boven_t = posx(687.0, -20.4, 247.0, 1.2, -180.0, -178)
-        pos_j = posj(-1.7, 54.6, 50.7, 0.0, 74.7, -180.0)
-        pos_rotated_t = posx(687.1, -20.4, 168.5, 177.3, 180.0, 44.0)
-        pos_boven_rotated_j = posj(-1.7, 51.9, 43.4, -0.0, 84.7, -180.0 + 45)
-
-    movej(pos_boven_rotated_j, a = 10, v = 10 * m)
-    movel(pos_rotated_t, a = 10, v = 10 * m)
-    # Cilinder
-    movej(pos_j, a = 10, v = 10 * m)
-    movel(pos_boven_t, a=10,v=10*m)
-    movej(home_pos_j, v=velocity, a=acceleration)
-
-
-#main
+######################################################################################
+##Main loop
+######################################################################################
 
 set_digital_output(1,0)
 movej(home_pos_j,v=velocity, a=acceleration)
