@@ -251,12 +251,12 @@ def voorrand_demonteren():
 
 set_digital_output(1,0)
 movej(home_pos_j,v=velocity, a=acceleration)
-#grab_tool(1) #vacuum opppakken
-#achterklep() #Oppakken vanaf de tray
-#dump_tool(1) #vacuum wegzetten
-#grab_tool(2) #spatel oppakken
-#achterklep2() #deel met de spatel
-#dump_tool(2) #spatel wegzetten
+grab_tool(1) #vacuum opppakken
+achterklep() #Oppakken vanaf de tray
+dump_tool(1) #vacuum wegzetten
+grab_tool(2) #spatel oppakken
+achterklep2() #deel met de spatel
+dump_tool(2) #spatel wegzetten
 grab_tool(1) #vacuum oppakken
 achterklep3() #achterklep weghalen
 batterij() #batterij weghalen
