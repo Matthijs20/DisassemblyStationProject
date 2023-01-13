@@ -1,7 +1,7 @@
 from DRCF import *
 
 #snelheden voor normale omstandigheden
-velocity = 150
+velocity = 100
 acceleration = 100
 
 #home poses
@@ -26,7 +26,7 @@ def grab_tool(tool):
         pos_rotated_j = posj(-1.7, 54.6, 50.7, 0.0, 74.7, -180.0 + 45)
         pos_boven_rotated_t = posx(687.1, -20.4, 247.0, 178.5, 180.0, 44.0)
 
-    movej(pos_boven_j, a=10, v=10 * m)
+    movej(pos_boven_j,v=velocity, a=acceleration)
     movel(pos_t, a=10, v=10 * m)
     # Cilinder
     movej(pos_rotated_j, a=10, v=10 * m)
@@ -46,12 +46,11 @@ def dump_tool(tool):
         pos_rotated_t = posx(687.1, -20.4, 168.5, 177.3, 180.0, 44.0)
         pos_boven_rotated_j = posj(-1.7, 51.9, 43.4, -0.0, 84.7, -180.0 + 45)
 
-    movej(pos_boven_rotated_j, a = 10, v = 10 * m)
+    movej(pos_boven_rotated_j,v=velocity, a=acceleration)
     movel(pos_rotated_t, a = 10, v = 10 * m)
     # Cilinder
     movej(pos_j, a = 10, v = 10 * m)
     movel(pos_boven_t, a=10,v=10*m)
-    movej(home_pos_j, v=velocity, a=acceleration)
 
 
 
@@ -138,7 +137,6 @@ def achterklep3():
     movel(achterklep_oppakken_S5, v=vx, a=ax)
     set_digital_output(1, 0)
     movel(achterklep_oppakken_S4, v=vx, a=ax)
-    movej(home_pos_j, v=velocity, a=acceleration)
 
 
 
@@ -253,14 +251,15 @@ def voorrand_demonteren():
 
 set_digital_output(1,0)
 movej(home_pos_j,v=velocity, a=acceleration)
-grab_tool(1) #vacuum opppakken
-achterklep() #Oppakken vanaf de tray
-dump_tool(1) #vacuum wegzetten
-grab_tool(2) #spatel oppakken
-achterklep2() #deel met de spatel
-dump_tool(2) #spatel wegzetten
+#grab_tool(1) #vacuum opppakken
+#achterklep() #Oppakken vanaf de tray
+#dump_tool(1) #vacuum wegzetten
+#grab_tool(2) #spatel oppakken
+#achterklep2() #deel met de spatel
+#dump_tool(2) #spatel wegzetten
 grab_tool(1) #vacuum oppakken
 achterklep3() #achterklep weghalen
 batterij() #batterij weghalen
 omdraaistation() #omdraaien
 voorrand_demonteren() #voorrand wegdrukken
+dump_tool(1) #vacuum wegzetten
